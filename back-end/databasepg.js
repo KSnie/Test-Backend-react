@@ -35,7 +35,7 @@ app.post('/login', async (req, res) => {
         const userData = result.rows[0];
         return res.json(userData)
     } else {
-        return res.json('faile')
+        return res.json('error')
     }
 });
 
@@ -56,4 +56,6 @@ app.post('/signup', async (req, res) => {
         'INSERT INTO users (username, password) VALUES ($1, $2)',
         [username, password]
     );
+
+    return res.json('complete');
 });

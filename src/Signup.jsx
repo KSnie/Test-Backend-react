@@ -25,11 +25,15 @@ function Signup() {
         if (Object.values(validationErrors).every((error) => error === "")) {
             
             axios.post('http://localhost:3000/signup', values).then(res => {
-                if (res.data === "already") {
-                  setError({ username: '', password: '', complete: 'Username is already used.' });
-                } else {
-                    setError({ username: '', password: '', complete: 'Sign-up Complete' });
-                }
+            console.log(res.data)    
+            
+            if (res.data === "already") {
+                    setError({ username: '', password: '', complete: 'Username is already used.' });
+            } else {
+                console.log(res.data)
+                setError({ username: '', password: '', complete: 'Complete Register.' });
+            }
+
             }).catch(err => console.log(err));
 
         } else {

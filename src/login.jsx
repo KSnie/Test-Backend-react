@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState , useEffect} from 'react';
 import validation from "./SignupValidation";
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -20,23 +20,24 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const validationErrors = validation(values);
-
+  
     if (Object.values(validationErrors).every((error) => error === "")) {
-
-        axios.post('http://localhost:3000/login', values).then(res => {
-          if (res.data === "faile") {
-            setError({ username: '', password: '', notfound: 'Username or password is incorrect' });
-          } else {
-            setData(res.data);
-            console.log(data);
-            setError({ username: '', password: '', notfound: '' });
-          }
-        }).catch(err => console.log(err));
-
+      const res = await axios.post('http://localhost:3000/login', values);
+  
+      if (res.data === "error") {
+        setError({ username: '', password: '', notfound: 'Username or password is incorrect' });
+      } else {
+        setData(res.data);
+        setError({ username: '', password: '', notfound: '' });
+      }
     } else {
       setError(validationErrors);
     }
   };
+
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
 
   return (
     <div>
